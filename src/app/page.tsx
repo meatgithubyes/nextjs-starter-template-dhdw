@@ -32,7 +32,7 @@ export default async function Home() {
             </code>
             .
           </li>
-          <li>Save and see your changes instantly!</li>
+          <li>Save and see your changes instantly!!!</li>
           <li>
             ISR timestamp (updates after a regen):{" "}
             <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded">
