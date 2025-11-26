@@ -9,7 +9,7 @@ const buildTimestamp = new Date().toISOString();
 // Fetch cache value from API
 async function getCacheValue() {
   try {
-    const response = await fetch('https://test-89782907.development.localcatalystserverless.com/server/Testingforisr/execute');
+    const response = await fetch('https://test-89782907.localcatalystserverless.com/server/Testingforisr/execute');
     
     if (!response.ok) {
       throw new Error('Failed to fetch data');
