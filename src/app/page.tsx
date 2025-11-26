@@ -1,17 +1,31 @@
 import Image from "next/image";
 
-// Regenerate this page in the background at most once every 60s
+// Revalidate this page every 60 seconds
 export const revalidate = 60;
 
-// (Optional) If you need deterministic static rendering, ensure no dynamic data without caching.
-// Example simulated data fetch:
-async function getMessage() {
-  // This could be a fetch to an external API.
-  return { generatedAt: new Date().toISOString() };
+// Captured at build time; will not change until next build/deploy
+const buildTimestamp = new Date().toISOString();
+
+// Fetch cache value from API
+async function getCacheValue() {
+  try {
+    const response = await fetch('https://test-89782907.development.localcatalystserverless.com/server/Testingforisr/execute');
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch data');
+    }
+    
+    const data = await response.json();
+    const output = JSON.parse(data.output);
+    return output.cache_value;
+  } catch (error) {
+    console.error('Error fetching cache value:', error);
+    return null;
+  }
 }
 
 export default async function Home() {
-  const msg = await getMessage();
+  const cacheValue = await getCacheValue();
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
@@ -26,17 +40,23 @@ export default async function Home() {
         />
         <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
           <li className="mb-2">
-            Get started by editings{" "}
+            Get started by editing{" "}
             <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
               src/app/page.tsx
             </code>
             .
           </li>
-          <li>Save and see your changes instantly!!!</li>
+          <li>Save and see changes instantly in dev (Fast Refresh).</li>
           <li>
-            ISR timestamp (updates after a regen):{" "}
+            Static build timestamp (fixed until redeploy):{" "}
             <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded">
-              {msg.generatedAt}
+              {buildTimestamp}
+            </code>
+          </li>
+          <li>
+            Cache value from API (revalidates every 60s):{" "}
+            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded">
+              {cacheValue || 'Loading...'}
             </code>
           </li>
         </ol>
