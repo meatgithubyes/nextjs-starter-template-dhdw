@@ -80,7 +80,7 @@
 
 import Image from "next/image";
 
-//export const revalidate = 120; // Revalidate every 2 minutes
+export const revalidate = 120; // Revalidate every 2 minutes
 
 export default function Home() {
   return (
