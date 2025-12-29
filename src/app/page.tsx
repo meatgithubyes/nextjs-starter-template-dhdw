@@ -1,88 +1,14 @@
-// import Image from "next/image";
-
-// // Revalidate this page every 60 seconds
-// export const revalidate = 60;
-
-// // Captured at build time; will not change until next build/deploy
-// const buildTimestamp = new Date().toISOString();
-
-// // Fetch cache value from API
-// async function getCacheValue() {
-//   try {
-//     const response = await fetch('https://test-89782907.development.localcatalystserverlessfeature.com/server/Testingforisr/execute');
-    
-//     if (!response.ok) {
-//       throw new Error('Failed to fetch data');
-//     }
-    
-//     const data = await response.json();
-//     const output = JSON.parse(data.output);
-//     return output.cache_value;
-//   } catch (error) {
-//     console.error('Error fetching cache value:', error);
-//     return null;
-//   }
-// }
-
-// export default async function Home() {
-//   const cacheValue = await getCacheValue();
-
-//   return (
-//     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-//       <main className="flex flex-col items-center row-start-2 gap-8 sm:items-start">
-//         <Image
-//           className="dark:invert"
-//           src="https://nextjs.org/icons/next.svg"
-//           alt="Next.js logo"
-//           width={180}
-//           height={38}
-//           priority
-//         />
-//         <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-//           <li className="mb-2">
-//             Get started by editing{" "}
-//             <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-//               src/app/page.tsx
-//             </code>
-//             .
-//           </li>
-//           <li>Save and see changes instantly in dev (Fast Refresh).</li>
-//           <li>
-//             Static build timestamp (fixed until redeploy):{" "}
-//             <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded">
-//               {buildTimestamp}
-//             </code>
-//           </li>
-//           <li>
-//             Cache value from API (revalidates every 60s):{" "}
-//             <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded">
-//               {cacheValue || 'Loading...'}
-//             </code>
-//           </li>
-//         </ol>
-
-//         <div className="flex flex-col items-center gap-4 sm:flex-row">
-//           <a
-//             className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-//             href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-//             target="_blank"
-//             rel="noopener noreferrer"
-//           >
-//             Read our docs
-//           </a>
-//         </div>
-//       </main>
-//     </div>
-//   );
-// }
-
-
-
 import Image from "next/image";
 
-export const revalidate = 120; // Revalidate every 2 minutes
+export const revalidate = 120; // Revalidate every 120 seconds (2 minutes)
+
+let revalidationCount = 0;
 
 export default function Home() {
+  // Increment counter and capture timestamp on each revalidation
+  revalidationCount++;
+  const currentTimestamp = new Date().toISOString();
+  
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col items-center row-start-2 gap-8 sm:items-start">
@@ -103,6 +29,18 @@ export default function Home() {
             .
           </li>
           <li>Save and see your changes instantly!!!!.</li>
+          <li className="mb-2">
+            Last revalidated at:{" "}
+            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded">
+              {currentTimestamp}
+            </code>
+          </li>
+          <li>
+            Revalidation count:{" "}
+            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
+              {revalidationCount}
+            </code>
+          </li>
         </ol>
 
         <div className="flex flex-col items-center gap-4 sm:flex-row">
