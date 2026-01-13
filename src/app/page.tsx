@@ -1,8 +1,14 @@
 import Image from "next/image";
+import https from 'https';
 
 export const revalidate = 120; // Revalidate every 120 seconds (2 minutes)
 
 let revalidationCount = 0;
+
+// Agent to bypass SSL verification for development
+const httpsAgent = new https.Agent({
+  rejectUnauthorized: false
+});
 
 async function fetchData() {
   try {
@@ -12,6 +18,8 @@ async function fetchData() {
       headers: {
         'Content-Type': 'application/json',
       },
+      // @ts-ignore - Next.js fetch accepts agent option
+      agent: httpsAgent,
       next: { revalidate: 120 }
     });
     
