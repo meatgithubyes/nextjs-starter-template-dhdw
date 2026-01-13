@@ -13,7 +13,7 @@ const httpsAgent = new https.Agent({
 async function fetchData() {
   try {
     console.log('Fetching data from API...');
-    const response = await fetch('https://testingslateruntime-117631035.development.localcatalystserverlessinteg1.com/server/slatetest/execute', {
+    const response = await fetch('https://slate-runtime-60047402057.development.catalystserverless.in/server/test/execute', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
