@@ -8,6 +8,10 @@ async function fetchData() {
   try {
     console.log('Fetching data from API...');
     const response = await fetch('https://testingslateruntime-117631035.development.localcatalystserverlessinteg1.com/server/slatetest/execute', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       next: { revalidate: 120 }
     });
     
@@ -20,9 +24,14 @@ async function fetchData() {
     const data = await response.json();
     console.log('API data received:', data);
     return data;
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    return { error: String(error) };
+  } catch (error: any) {
+    console.error('Detailed error:', error);
+    console.error('Error cause:', error.cause);
+    return { 
+      error: error.message || String(error),
+      cause: error.cause ? String(error.cause) : 'Unknown cause',
+      timestamp: new Date().toISOString()
+    };
   }
 }
 
