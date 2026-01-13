@@ -7,7 +7,7 @@ let revalidationCount = 0;
 async function fetchData() {
   try {
     const response = await fetch('https://testingslateruntime-117631035.development.localcatalystserverlessinteg1.com/server/slatetest/execute', {
-      cache: 'no-store'
+      next: { revalidate: 120 }
     });
     
     if (!response.ok) {
